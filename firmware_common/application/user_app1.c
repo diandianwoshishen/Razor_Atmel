@@ -87,10 +87,10 @@ Promises:
 */
 void UserApp1Initialize(void)
 {
- 
   /* If good initialization, set state to Idle */
   if( 1 )
   {
+    
     UserApp1_StateMachine = UserApp1SM_Idle;
   }
   else
@@ -135,13 +135,18 @@ State Machine Function Definitions
 /*-------------------------------------------------------------------------------------------------------------------*/
 /* Wait for ??? */
 static void UserApp1SM_Idle(void)
-{
+{ static u16 u16LedLoop=0;
 
-} /* end UserApp1SM_Idle() */
-    
 
-/*-------------------------------------------------------------------------------------------------------------------*/
-/* Handle an error */
+  u16LedLoop++;
+  if(u16LedLoop>=100){
+  LCDCommand(LCD_CLEAR_CMD);
+  u16LedLoop=0;
+  LedToggle(WHITE);
+  LedPWM(RED,LED_PWM_35);
+  }
+
+} 
 static void UserApp1SM_Error(void)          
 {
   
