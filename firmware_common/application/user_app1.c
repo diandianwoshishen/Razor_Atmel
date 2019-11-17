@@ -136,19 +136,34 @@ State Machine Function Definitions
 /* Wait for ??? */
 static void UserApp1SM_Idle(void)
 {
-
-} /* end UserApp1SM_Idle() */
+  static u16 u16LedCount=0;
+  static u16 u16LedDelay=0;
+  static u16 u16LedMax=500;
+  static u8 u8LedState=0;
+  u16LedCount++;
+  if(u16LedCount>3000)
+  {
+    u16LedCount=0;
+    u16LedMax/=2;
+    u16LedDelay=0;
+    return;
+  }
+  u16LedDelay++;
+  if(u16LedDelay>=u16LedMax){
+    u16LedDelay=0;
     
+    if(u8LedState==0){
+    u8LedState=1;
+    LedOn(RED);
+    return;}
+    
+    else{
+    u8LedState=0;
+    LedOff(RED);
+    return;}
+  }}
 
-/*-------------------------------------------------------------------------------------------------------------------*/
-/* Handle an error */
-static void UserApp1SM_Error(void)          
-{
+static void UserApp1SM_Error(void){
   
-} /* end UserApp1SM_Error() */
-
-
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-/* End of File                                                                                                        */
-/*--------------------------------------------------------------------------------------------------------------------*/
+  
+}
