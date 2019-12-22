@@ -143,9 +143,56 @@ static void UserApp1SM_Idle(void)
 /*-------------------------------------------------------------------------------------------------------------------*/
 /* Handle an error */
 static void UserApp1SM_Error(void)          
-{
+{static u16 u16LedCount = 0;
+  static u16 u16LedDelay = 0;
+  static u16 u16LedMax = 100;
+  static u8 u8LedState = 0;
+  static u8 u8LedChange = 0;
+  //static bool  bLedState=TRUE;
   
-} /* end UserApp1SM_Error() */
+  u16LedCount++;
+  if(u16LedCount >= 500)
+  {
+    u16LedCount = 0;
+    u16LedDelay = 0;
+    if(u8LedChange <10){
+      
+      u16LedMax -= 10;
+      u8LedChange++;
+      return;
+    }
+    if((u8LedChange >= 10)&&(u8LedChange < 20))
+    {
+      u16LedMax += 10;
+      u8LedChange++;
+      return;
+    }
+    if(u8LedChange >= 20)
+    
+    {
+      u16LedMax = 100;
+      u8LedChange=0;
+      return;
+    }
+    
+  }
+  
+  u16LedDelay++;
+  if(u16LedDelay >= u16LedMax)
+  {
+    u16LedDelay = 0;
+    if(u8LedState == 0)
+    {
+      u8LedState = 1;
+      LedOn(RED);
+    }
+    else
+    {
+      u8LedState = 0;
+      LedOff(RED);
+    }
+  
+  }} /* end UserApp1SM_Error() */
 
 
 
