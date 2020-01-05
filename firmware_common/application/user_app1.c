@@ -135,7 +135,26 @@ State Machine Function Definitions
 /*-------------------------------------------------------------------------------------------------------------------*/
 /* Wait for ??? */
 static void UserApp1SM_Idle(void)
-{
+{  static u16 LedCycle=100;
+    static u16 time=1000;
+    static int LedState=-1;
+    
+    if(LedCycle!=0 && time%(500/LedCycle)==0)
+    {
+      if(LedState==-1)
+        LedOn(BLUE);
+      else
+        LedOff(BLUE);
+      LedState=-1*LedState;
+    }
+    time--;
+    if(time==0)
+    {
+      time=1000;
+      if(LedCycle>1)
+        LedCycle=LedCycle-1;
+    }
+
 
 } /* end UserApp1SM_Idle() */
     
